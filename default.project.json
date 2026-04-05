@@ -6,9 +6,18 @@
 		"ReplicatedStorage": {
 			"Internal": {
 				"$className": "Folder",
-				"Client": { "$path": "out/client" },
-				"Shared": { "$path": "out/shared" },
-				"UI": { "$path": "out/ui" }
+				"Kit": {
+					"$className": "Folder",
+					"Client": {
+						"$path": "out/kit/client"
+					},
+					"Shared": {
+						"$path": "out/kit/shared"
+					},
+					"UI": {
+						"$path": "out/kit/ui"
+					}
+				}
 			},
 			"Libs": {
 				"$path": "out/libs"
@@ -16,20 +25,29 @@
 			"Scripts": {
 				"$className": "Folder",
 				"Core": {
-					"$path": "out/scripts"
+					"$path": "out/kit/scripts"
 				}
 			},
 			"Packages": {
-				"$path": { "optional": "roblox_packages" }
+				"$path": {
+					"optional": "roblox_packages"
+				}
 			}
 		},
 		"ServerScriptService": {
 			"Internal": {
 				"$className": "Folder",
-				"Server": { "$path": "out/server" }
+				"Kit": {
+					"$className": "Folder",
+					"Server": {
+						"$path": "out/kit/server"
+					}
+				}
 			},
 			"Packages": {
-				"$path": { "optional": "roblox_server_packages" }
+				"$path": {
+					"optional": "roblox_server_packages"
+				}
 			}
 		}
 	}
