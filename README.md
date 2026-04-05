@@ -1,6 +1,8 @@
 <div align="center">
     <h1>
-        Welcome To Hell Kit
+        <img src="./assets/branding/logo/fit.png" alt="Welcome To Hell Logo" width="250px" />
+        <br/>
+        Welcome To Hell Kit 
     </h1>
     <p>
         Everything you need to build towers for Welcome To Hell.
