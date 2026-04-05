@@ -14,4 +14,5 @@ Thumbs.db
 
 src/*/generated/**/*.luau
 !src/shared/generated/types/roblox.luau
-inspiration
+
+molly.md
