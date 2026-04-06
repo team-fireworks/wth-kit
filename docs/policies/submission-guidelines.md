@@ -1,4 +1,14 @@
+---
+icon: "lucide/send"
+---
+
 # Submission Guidelines
+
+These guidelines define the requirements and standards for submitting towers to
+Welcome To Hell.
+
+This document is intended for both new and established builders. Read all
+sections carefully before starting your tower.
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 "SHOULD NOT", "RECOMMENDED",  "MAY", and "OPTIONAL" in this document are to be
@@ -100,12 +110,26 @@ chapter's lobby.
 3.  Exactly ONE continous portion of a frame, at least 50 studs in width and
     depth MUST be touching the ground.
 
-    ??? success "Valid examples"
+   ??? example "Frame Examples"
 
-        ![](/assets/media/frame-1.png)
-        ![](/assets/media/frame-2.png)
+        !!! success "Valid: Single Supported Frame"
 
+            ![Tilted horizontal frame with a stand](/assets/media/frame-2.png)
 
+            The frame is properly supported by one continuous structure touching the ground.
+
+        !!! failure "Invalid: Floating Frame"
+
+            ![Tilted horizontal frame floating above the ground](/assets/media/frame-3.png)
+
+            The frame is not connected to the ground.
+
+        !!! failure "Invalid: Multiple Supports"
+
+            ![Tilted horizontal frame with two stands](/assets/media/frame-4.png)
+
+            The frame uses more than one ground support, which is not allowed.
+            
 4.  Presented frames are RECOMMENDED to feel like a tower with vertically
     stacked floors.
 

@@ -1,4 +1,4 @@
-# Introduction
+# Welcome
 
 First, thank you for taking the time to contribute to Welcome To Hell!
 

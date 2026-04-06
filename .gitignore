@@ -16,3 +16,6 @@ src/*/generated/**/*.luau
 !src/shared/generated/types/roblox.luau
 
 molly.md
+site
+.venv
+.cache
