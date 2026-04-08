@@ -1,0 +1,45 @@
+{
+    // Ai can go shit urselves
+    "chat.disableAIFeatures": true,
+    "chat.agent.enabled": false,
+    "chat.commandCenter.enabled": false,
+    "terminal.integrated.initialHint": false,
+    // rest
+    "editor.formatOnSave": true,
+    "editor.rulers": [
+        80,
+        120
+    ],
+    "files.associations": {
+        ".luaurc": "jsonc",
+        ".zed/settings.json": "jsonc"
+    },
+    "luau-lsp.completion.showPropertiesOnMethodCall": true,
+    "luau-lsp.completion.imports.separateGroupsWithLine": true,
+    "luau-lsp.completion.imports.stringRequires.enabled": true,
+    "luau-lsp.fflags.enableNewSolver": true,
+    "luau-lsp.ignoreGlobs": [
+        "**/.pesde/**",
+        "out/**",
+        "inspiration/**"
+    ],
+    // "files.exclude": {
+    //     "**/.git": true,
+    //     "**/.svn": true,
+    //     "**/.hg": true,
+    //     "**/.DS_Store": true,
+    //     "**/Thumbs.db": true,
+    //     "**/.pesde": true,
+    //     "lune_packages": true,
+    //     "luau_packages": true,
+    //     "roblox_packages": true,
+    //     "out": true,
+    //     "sourcemap.json": true,
+    //     "**/*.lock": true,
+    // },
+    "luau-lsp.platform.type": "roblox",
+    "luau-lsp.types.robloxSecurityLevel": "None",
+    "[luau]": {
+        "editor.defaultFormatter": "JohnnyMorganz.stylua",
+    },
+}

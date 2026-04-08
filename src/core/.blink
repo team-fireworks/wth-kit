@@ -1,0 +1,13 @@
+option Casing = Camel
+option TypesOutput = "src/shared/generated/net.luau"
+option ServerOutput = "src/server/generated/net.luau"
+option ClientOutput = "src/client/generated/net.luau"
+option PromiseLibrary = "ReplicatedStorage.Packages.Promise"
+option RemoteScope = "WELCOME_TO_HELL_CORE"
+
+event damage {
+    From: Client,
+    Type: Reliable,
+    Call: SingleAsync,
+    Data: u8
+}

@@ -1,6 +1,6 @@
-name = "team_fireworks/wth_kit"
+name = "team_fireworks/wth"
 version = "0.1.0"
-description = "Everything you need to build towers for Welcome To Hell."
+description = "Source code for Welcome To Hell"
 authors = ["Team Fireworks"]
 repository = "https://github.com/team-fireworks/wth-kit"
 private = true
