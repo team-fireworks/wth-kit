@@ -1,23 +1,27 @@
+# pesde
 .pesde
-*.lock
-
-out
-sourcemap.json
-
 roblox_packages
 roblox_server_packages
 luau_packages
 lune_packages
 
-.DS_Store
-Thumbs.db
+# lock files
+*.lock
 
+# build files
+out
+sourcemap.json
+site
 src/*/generated/**/*.luau
 !src/shared/generated/types/roblox.luau
 
-molly.md
-site
+# python
 .venv
 .cache
 
+# system files
+.DS_Store
+Thumbs.db
+
+# mirror codebase
 mirror
