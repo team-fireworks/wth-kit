@@ -1,10 +1,12 @@
 {
     "languageMode": "strict",
     "aliases": {
+        // codebase
         "pkgs": "roblox_packages",
         "core": "src/core",
         "libs": "src/libs",
         "kit": "src/kit",
+        // lute
         "lute": "~/.lute/typedefs/0.1.0/lute",
         "lint": "~/.lute/typedefs/0.1.0/lint",
         "std": "~/.lute/typedefs/0.1.0/std",
