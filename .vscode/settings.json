@@ -34,7 +34,7 @@
         ".venv": true,
         ".cache": true,
         ".zed": true,
-        "game": true,
+        "mirror": true,
         "patches": true,
         "out": true,
         "site": true,

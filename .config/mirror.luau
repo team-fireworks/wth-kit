@@ -2,7 +2,7 @@ return {
 	remote = "https://github.com/team-fireworks/wth.git",
 	branch = "main",
 
-	directory = "game",
+	directory = "mirror",
 	targets = {
 		"src/core",
 		"src/libs",

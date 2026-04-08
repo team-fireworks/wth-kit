@@ -20,5 +20,4 @@ site
 .venv
 .cache
 
-# Game source code
-game
+mirror

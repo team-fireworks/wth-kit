@@ -1,9 +1,9 @@
+local _ = require("@lute/time")
 local cli = require("@batteries/cli")
 local config = require("@config/mirror")
-local fs = require("@std/fs")
-local _ = require("@lute/time")
 local copy = require("@scripts/lib/copy")
 local exec = require("@scripts/lib/exec")
+local fs = require("@std/fs")
 local path = require("@std/path")
 local process = require("@std/process")
 
@@ -17,7 +17,7 @@ local function pull()
 		fs.removedirectory(config.directory, { recursive = true })
 	end
 
-	local gitVersionString = exec("git", "--version").stdout
+	local gitVersionString = process.run({ "git", "--version" }).stdout
 	local gitVersion = string.split(gitVersionString, " ")[3]
 	local components = string.split(gitVersion, ".")
 
