@@ -4,19 +4,28 @@
 	"tree": {
 		"$className": "DataModel",
 		"ReplicatedStorage": {
-			"Internal": {
+			"Core": {
 				"$className": "Folder",
-				"Kit": {
-					"$className": "Folder",
-					"Client": {
-						"$path": "src/kit/client"
-					},
-					"Shared": {
-						"$path": "src/kit/shared"
-					},
-					"UI": {
-						"$path": "src/kit/ui"
-					}
+				"Client": {
+					"$path": "src/core/client"
+				},
+				"Shared": {
+					"$path": "src/core/shared"
+				},
+				"UI": {
+					"$path": "src/core/ui"
+				}
+			},
+			"Kit": {
+				"$className": "Folder",
+				"Client": {
+					"$path": "src/kit/client"
+				},
+				"Shared": {
+					"$path": "src/kit/shared"
+				},
+				"UI": {
+					"$path": "src/kit/ui"
 				}
 			},
 			"Libs": {
@@ -25,6 +34,9 @@
 			"Scripts": {
 				"$className": "Folder",
 				"Core": {
+					"$path": "src/core/scripts"
+				},
+				"Kit": {
 					"$path": "src/kit/scripts"
 				}
 			},
@@ -35,13 +47,16 @@
 			}
 		},
 		"ServerScriptService": {
-			"Internal": {
+			"Core": {
 				"$className": "Folder",
-				"Kit": {
-					"$className": "Folder",
-					"Server": {
-						"$path": "src/kit/server"
-					}
+				"Server": {
+					"$path": "src/core/server"
+				}
+			},
+			"Kit": {
+				"$className": "Folder",
+				"Server": {
+					"$path": "src/kit/server"
 				}
 			},
 			"Packages": {

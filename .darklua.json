@@ -1,0 +1,16 @@
+{
+	"rules": [
+		{
+			"rule": "convert_require",
+			"current": {
+				"name": "luau",
+				"use_luau_configuration": true
+			},
+			"target": {
+				"name": "roblox",
+				"rojo_sourcemap": "./sourcemap.json",
+				"indexing_style": "wait_for_child"
+			}
+		}
+	]
+}

@@ -1,0 +1,6 @@
+std = "selene-std"
+
+[lints]
+incorrect_standard_library_use = "allow"
+mixed_table = "allow"
+shadowing = "allow"

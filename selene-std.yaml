@@ -1,0 +1,9 @@
+---
+base: roblox
+globals:
+    require:
+        args:
+            - required: false
+              type: any
+    types:
+        type: any
