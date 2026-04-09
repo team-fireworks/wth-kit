@@ -73,9 +73,9 @@ export type function Merge(lhs: type, rhs: type)
 end
 
 local WEAK_METATABLES = {
-	k = table.freeze({ __mode = "k" }),
-	v = table.freeze({ __mode = "v" }),
-	kv = table.freeze({ __mode = "kv" }),
+	k = table.freeze { __mode = "k" },
+	v = table.freeze { __mode = "v" },
+	kv = table.freeze { __mode = "kv" },
 }
 
 local function map<KI, VI, KO, VO>(input: { [KI]: VO }, transform: (KI, VI, { [KI]: VI }) -> (KO, VO))
@@ -155,7 +155,7 @@ local function findAndRemove<T>(haystack: { T }, needle: T)
 	end
 end
 
-return table.freeze({
+return table.freeze {
 	map = map,
 	filter = filter,
 	filterMap = filterMap,
@@ -166,4 +166,4 @@ return table.freeze({
 	findAndRemove = findAndRemove,
 
 	create = table.create :: ((count: number) -> { any }) & (<V>(count: number, value: V) -> { V }),
-})
+}

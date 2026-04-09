@@ -9,8 +9,7 @@ local functions = require("@libs/functions")
 local gt = require("@libs/gt")
 
 --[=[
-	@class MechanicImplementationMetadata
-	@tag Interface
+	@interface MechanicImplementationMetadata
 
 	Additional metadata attached to a `MechanicImplementation`. 
 
@@ -25,8 +24,7 @@ export type MechanicImplementationMetadata = {
 }
 
 --[=[
-	@class Mechanic<Self> 
-	@tag Interface
+	@interface Mechanic<Self>
 
 	An instance loaded in a `Level` with user-implemented behavior as defined by a
 	`MechanicImplementation`.
@@ -41,8 +39,7 @@ export type Mechanic<Self, Mixin = {}> = Self & Mixin & {
 }
 
 --[=[
-	@class MechanicImplementation
-	@tag Interface
+	@interface MechanicImplementation
 
 	Represents the implementation of a `Mechanic` used in a `Level`.
 ]=]

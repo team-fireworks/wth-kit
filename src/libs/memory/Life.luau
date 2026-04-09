@@ -3,7 +3,7 @@ local tables = require("@libs/collections/tables")
 local threadpool = require("@libs/threadpool")
 
 --[=[
-	@class Life
+	@class life
 	@tag Library
 
 	Represents a lifespan. Throughout a Life, destroyable objects can be added

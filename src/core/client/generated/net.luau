@@ -7,15 +7,15 @@
 -- This file is not meant to be edited
 
 _G._BLINK = _G._BLINK or {}
-if _G._BLINK["WELCOME_TO_HELL_KIT"] then
-	error("[Blink]: An instance of blink is already running with the remote scope \"WELCOME_TO_HELL_KIT\". Change the remote scope of either instance to avoid conflicts.")
+if _G._BLINK["WELCOME_TO_HELL_CORE"] then
+	error("[Blink]: An instance of blink is already running with the remote scope \"WELCOME_TO_HELL_CORE\". Change the remote scope of either instance to avoid conflicts.")
 end
-_G._BLINK["WELCOME_TO_HELL_KIT"] = true
+_G._BLINK["WELCOME_TO_HELL_CORE"] = true
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 
 local Promise = require(ReplicatedStorage.Packages.Promise)
-local BASE_EVENT_NAME = "WELCOME_TO_HELL_KIT_BLINK"
+local BASE_EVENT_NAME = "WELCOME_TO_HELL_CORE_BLINK"
 local Invocations = 0
 
 local SendSize = 64
@@ -158,100 +158,16 @@ local Queue: any = {
 
 local SerdesEvent = "?"
 local SerdesThread: thread?
-Queue.Reliable[1] = table.create(256)
-Queue.Reliable[2] = table.create(256)
-Queue.Reliable[3] = table.create(256)
-local function WriteEVENT_rejoin(Value: nil): ()
-	-- Allocate BLOCK: 1 bytes
-	local BLOCK_START = Allocate(1)
-	buffer.writeu8(SendBuffer, BLOCK_START + 0, 0)
-end
-
-local function WriteFUNCTION_DATA_getTower(Value: nil, InvocationIdentifier: number): ()
-	-- Allocate BLOCK: 2 bytes
-	local BLOCK_START = Allocate(2)
-	buffer.writeu8(SendBuffer, BLOCK_START + 0, 1)
-	buffer.writeu8(SendBuffer, BLOCK_START + 1, InvocationIdentifier)
-end
-
-local function ReadFUNCTION_RETURN_getTower(): (Instance)
-	-- Read BLOCK: 1 bytes
-	local BLOCK_START = Read(1)
-	local Success = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
-	if Success ~= 1 then
-		error("Server encountered an error.")
-	end
-	RecieveInstanceCursor += 1
-	local Value = RecieveInstances[RecieveInstanceCursor]
-	if typeof(Value) ~= "Instance" then error(`Expected an Instance, got {typeof(Value)} instead.`) end
-	if not Value:IsA("Instance") then error(`Expected an Instance of type "Instance", got "{Value.ClassName}" instead.`) end
-	return Value
-end
-
-local function WriteFUNCTION_DATA_loadMechanics(Value: nil, InvocationIdentifier: number): ()
-	-- Allocate BLOCK: 2 bytes
-	local BLOCK_START = Allocate(2)
-	buffer.writeu8(SendBuffer, BLOCK_START + 0, 2)
-	buffer.writeu8(SendBuffer, BLOCK_START + 1, InvocationIdentifier)
-end
-
-local function ReadFUNCTION_RETURN_loadMechanics(): (Instance)
-	-- Read BLOCK: 1 bytes
-	local BLOCK_START = Read(1)
-	local Success = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
-	if Success ~= 1 then
-		error("Server encountered an error.")
-	end
-	RecieveInstanceCursor += 1
-	local Value = RecieveInstances[RecieveInstanceCursor]
-	if typeof(Value) ~= "Instance" then error(`Expected an Instance, got {typeof(Value)} instead.`) end
-	if not Value:IsA("Instance") then error(`Expected an Instance of type "Instance", got "{Value.ClassName}" instead.`) end
-	return Value
-end
-
-local function WriteFUNCTION_DATA_loadDecorations(Value: nil, InvocationIdentifier: number): ()
-	-- Allocate BLOCK: 2 bytes
-	local BLOCK_START = Allocate(2)
-	buffer.writeu8(SendBuffer, BLOCK_START + 0, 3)
-	buffer.writeu8(SendBuffer, BLOCK_START + 1, InvocationIdentifier)
-end
-
-local function ReadFUNCTION_RETURN_loadDecorations(): (Instance)
-	-- Read BLOCK: 1 bytes
-	local BLOCK_START = Read(1)
-	local Success = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
-	if Success ~= 1 then
-		error("Server encountered an error.")
-	end
-	RecieveInstanceCursor += 1
-	local Value = RecieveInstances[RecieveInstanceCursor]
-	if typeof(Value) ~= "Instance" then error(`Expected an Instance, got {typeof(Value)} instead.`) end
-	if not Value:IsA("Instance") then error(`Expected an Instance of type "Instance", got "{Value.ClassName}" instead.`) end
-	return Value
-end
-
 local function WriteEVENT_damage(Value: number): ()
 	-- Allocate BLOCK: 2 bytes
 	local BLOCK_START = Allocate(2)
-	buffer.writeu8(SendBuffer, BLOCK_START + 0, 4)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 0)
 	buffer.writeu8(SendBuffer, BLOCK_START + 1, Value)
 end
 
 if not RunService:IsRunning() then
 	local NOOP = function() end
 	local Returns = table.freeze({
-	rejoin = {
-		fire = NOOP
-	},
-	getTower = {
-		invoke = NOOP
-	},
-	loadMechanics = {
-		invoke = NOOP
-	},
-	loadDecorations = {
-		invoke = NOOP
-	},
 	damage = {
 		fire = NOOP
 	},
@@ -297,40 +213,6 @@ Reliable.OnClientEvent:Connect(function(Buffer: buffer, Instances: {Instance})
 		-- Read BLOCK: 1 bytes
 		local BLOCK_START = Read(1)
 		local Index = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
-		if Index == 1 then
-			-- Read BLOCK: 1 bytes
-			local BLOCK_START = Read(1)
-			local InvocationIdentifier = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
-				local Success, ReturnValue = pcall(function ()
-					return ReadFUNCTION_RETURN_getTower()
-				end)
-			if Calls[InvocationIdentifier] ~= nil then
-				task.spawn(Calls[InvocationIdentifier], Success, ReturnValue)
-				Calls[InvocationIdentifier] = nil
-			end
-		elseif Index == 2 then
-			-- Read BLOCK: 1 bytes
-			local BLOCK_START = Read(1)
-			local InvocationIdentifier = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
-				local Success, ReturnValue = pcall(function ()
-					return ReadFUNCTION_RETURN_loadMechanics()
-				end)
-			if Calls[InvocationIdentifier] ~= nil then
-				task.spawn(Calls[InvocationIdentifier], Success, ReturnValue)
-				Calls[InvocationIdentifier] = nil
-			end
-		elseif Index == 3 then
-			-- Read BLOCK: 1 bytes
-			local BLOCK_START = Read(1)
-			local InvocationIdentifier = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
-				local Success, ReturnValue = pcall(function ()
-					return ReadFUNCTION_RETURN_loadDecorations()
-				end)
-			if Calls[InvocationIdentifier] ~= nil then
-				task.spawn(Calls[InvocationIdentifier], Success, ReturnValue)
-				Calls[InvocationIdentifier] = nil
-			end
-		end
 	end
 end)
 Unreliable.OnClientEvent:Connect(function(Buffer: buffer, Instances: {Instance})
@@ -355,77 +237,6 @@ end)
 local Returns = table.freeze({
 	stepReplication = StepReplication,
 
-	rejoin = {
-		fire = function(Value: nil): ()
-			WriteEVENT_rejoin(Value)
-		end
-	},
-	getTower = {
-		invoke = function(Value: nil)
-			return Promise.new(function (Resolve, Reject, OnCancel)
-				local InvocationIdentifier = Invoke()
-				if Calls[InvocationIdentifier] ~= nil then
-					Invocations -= 1
-					error("More than 256 calls are awaiting a response, this packet has been dropped.")
-				end
-				WriteFUNCTION_DATA_getTower(Value, InvocationIdentifier)
-				Calls[InvocationIdentifier] = coroutine.running()
-				OnCancel(function ()
-					Calls[InvocationIdentifier] = nil
-				end)
-				local Success, ReturnValue: Instance = coroutine.yield()
-				if Success ~= true then
-					Reject("There was an exception while processing \"getTower\".")
-					return 
-				end
-				Resolve(ReturnValue)
-			end)
-		end
-	},
-	loadMechanics = {
-		invoke = function(Value: nil)
-			return Promise.new(function (Resolve, Reject, OnCancel)
-				local InvocationIdentifier = Invoke()
-				if Calls[InvocationIdentifier] ~= nil then
-					Invocations -= 1
-					error("More than 256 calls are awaiting a response, this packet has been dropped.")
-				end
-				WriteFUNCTION_DATA_loadMechanics(Value, InvocationIdentifier)
-				Calls[InvocationIdentifier] = coroutine.running()
-				OnCancel(function ()
-					Calls[InvocationIdentifier] = nil
-				end)
-				local Success, ReturnValue: Instance = coroutine.yield()
-				if Success ~= true then
-					Reject("There was an exception while processing \"loadMechanics\".")
-					return 
-				end
-				Resolve(ReturnValue)
-			end)
-		end
-	},
-	loadDecorations = {
-		invoke = function(Value: nil)
-			return Promise.new(function (Resolve, Reject, OnCancel)
-				local InvocationIdentifier = Invoke()
-				if Calls[InvocationIdentifier] ~= nil then
-					Invocations -= 1
-					error("More than 256 calls are awaiting a response, this packet has been dropped.")
-				end
-				WriteFUNCTION_DATA_loadDecorations(Value, InvocationIdentifier)
-				Calls[InvocationIdentifier] = coroutine.running()
-				OnCancel(function ()
-					Calls[InvocationIdentifier] = nil
-				end)
-				local Success, ReturnValue: Instance = coroutine.yield()
-				if Success ~= true then
-					Reject("There was an exception while processing \"loadDecorations\".")
-					return 
-				end
-				Resolve(ReturnValue)
-			end)
-		end
-	},
 	damage = {
 		fire = function(Value: number): ()
 			WriteEVENT_damage(Value)
