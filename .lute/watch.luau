@@ -1,9 +1,9 @@
 local config = require("@config/project")
+local copy = require("@scripts/lib/copy")
 local exec = require("@scripts/lib/exec")
 local fs = require("@std/fs")
 local process = require("@std/process")
 local task = require("@lute/task")
-local copy = require("@scripts/lib/copy")
 
 if fs.exists(config.output) then
 	fs.removedirectory(config.output, { recursive = true })
@@ -23,4 +23,4 @@ for _, file in config.blinkFiles do
 	task.spawn(process.run, { "blink", file, "--yes", "--watch" }, { stdio = "inherit" } :: any)
 end
 
-task.delay(1, process.run, { "rojo", "serve" }, { stdio = "inherit" } :: any)
+task.delay(1, process.run, { "rojo", "serve", config.rojoProjects.default }, { stdio = "inherit" } :: any)
