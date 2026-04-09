@@ -1,17 +1,20 @@
-<!--
+return [[<!--
     This file was automatically @generated using Welcome To Hell's `refgen`. 
     As changes may be overriden, this file should not be manually modified.
 -->
 
-# Mechanic
+# {name}
 
 ```luau
-local Mechanic = require("@game/ReplicatedStorage/Libs/Mechanic")
+{name} = {
+{apiSignature}
+}
 ```
 
-
+{description}
 
 ## API
 
 {api}
 
+]]

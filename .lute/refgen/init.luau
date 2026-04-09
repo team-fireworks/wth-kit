@@ -1,4 +1,3 @@
-local pp = require("@batteries/pp")
 local docs = require("@config/docs")
 local project = require("@config/project")
 local clearDirectory = require("@scripts/lib/clearDirectory")
@@ -20,24 +19,30 @@ local raw = process.run({
 
 local model = moonwaveModel(json.deserialize(raw) :: moonwave.Extracted)
 
-clearDirectory(filepaths.libraries)
+clearDirectory(filepaths.api)
 
 local libraryNav: { { [string]: { string } } } = {}
 
-for _, library in model.libraries do
-	local libraryContents = templates.Library:gsub("{(.-)}", library :: { [string]: string })
+local function linkNames(content: string, hyperlinks: { [string]: string })
+	for name, url in hyperlinks do
+		content = string.gsub(content, "%f[%w]" .. name .. "%f[%W]", url)
+	end
+	return content
+end
 
-	local hyperlink = model.nameToHyperlinks[library.name]
-	model.nameToHyperlinks[library.name] = nil
-	libraryContents = libraryContents:gsub("%w*", model.nameToHyperlinks)
-	model.nameToHyperlinks[library.name] = hyperlink
+for _, class in model.classes do
+	local contents = string.gsub(templates.Class, "{([^{}]-)}", class :: { [string]: string })
 
-	local index = path.join(library.outputDirectory, "index.md")
-	print("Writing library", library.name)
-	fs.createdirectory(library.outputDirectory, { makeparents = true })
-	fs.writestringtofile(index, libraryContents)
+	local nameToHyperlinks = table.clone(model.nameToHyperlinks)
+	nameToHyperlinks[class.name] = nil
+	contents = linkNames(contents, nameToHyperlinks)
 
-	table.insert(libraryNav, { [library.name] = { path.format(path.join(library.outputUrl, "index.md")) } })
+	local index = path.join(class.directory, "index.md")
+	print("Writing api class", class.name)
+	fs.createdirectory(class.directory, { makeparents = true })
+	fs.writestringtofile(index, contents)
+
+	table.insert(libraryNav, { [class.name] = { path.format(path.join(class.url, "index.md")) } })
 end
 
 local zensical = fs.readfiletostring(docs.zensical)
@@ -45,10 +50,10 @@ zensical = text.replaceSectionedBlock(
 	zensical,
 	-- json is close enough lmao
 	-- + toml breaks anyway
-	'{ "Libraries" = '
+	'{ "API" = '
 		.. json.serialize(libraryNav :: any):gsub(":", "=")
 		.. " }",
-	"# refgen: libraries start",
-	"# refgen: libraries end"
+	"# refgen: api start",
+	"# refgen: api end"
 )
 fs.writestringtofile(docs.zensical, zensical)

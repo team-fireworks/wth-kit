@@ -1,6 +1,7 @@
 return {
 	ApiItem = require("@self/ApiItem"),
 	ApiList = require("@self/ApiLIst"),
+	Class = require("@self/Class"),
 	Function = require("@self/Function"),
 	FunctionParameter = require("@self/FunctionParameter"),
 	FunctionReturn = require("@self/FunctionReturn"),

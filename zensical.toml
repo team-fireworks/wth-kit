@@ -22,9 +22,9 @@ nav = [
     { "Reference" = [
         "reference/index.md",
 
-        # refgen: libraries start
-{ "Libraries" = [{ "Level"= ["reference/libraries/level/index.md"] }, { "Life"= ["reference/libraries/life/index.md"] }, { "Mechanic"= ["reference/libraries/mechanic/index.md"] }, { "ScriptCollector"= ["reference/libraries/scriptcollector/index.md"] }, { "Transformer"= ["reference/libraries/transformer/index.md"] }, { "std"= ["reference/libraries/std/index.md"] }] }
-# refgen: libraries end
+        # refgen: api start
+{ "API" = [{ "Level"= ["reference/api/level/index.md"] }, { "ScriptCollector"= ["reference/api/scriptcollector/index.md"] }] }
+# refgen: api end
     ] },
     { "Policies" = [
         { "Policies" = [
@@ -50,7 +50,7 @@ features = [
     "content.action.view",
     "content.code.annotate",
     "content.code.copy",
-    "content.code.select",
+    # "content.code.select",
     "content.footnote.tooltips",
     "content.tabs.link",
     "content.tooltips",

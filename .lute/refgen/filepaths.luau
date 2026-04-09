@@ -2,6 +2,6 @@ local docs = require("@config/docs")
 local path = require("@std/path")
 
 return {
-	libraries = path.join(docs.directory, docs.documentationPaths.libraries),
+	api = path.join(docs.directory, docs.documentationPaths.api),
 	mechanics = path.join(docs.directory, docs.documentationPaths.mechanics),
 }

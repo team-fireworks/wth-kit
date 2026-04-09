@@ -5,7 +5,7 @@ return {
 	-- paths are assumed to start from docs
 	documentationPaths = {
 		mechanics = "reference/mechanics",
-		libraries = "reference/libraries",
+		api = "reference/api",
 	},
 
 	header = "<!-- This file was automatically @generated and should not be modified manually. -->",
