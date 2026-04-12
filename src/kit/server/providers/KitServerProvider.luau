@@ -8,15 +8,13 @@ local Workspace = game:GetService("Workspace")
 local Level = require("@libs/Level")
 local Log = require("@libs/Log")
 local PlayerInstanceLoader = require("@core/server/PlayerInstanceLoader")
-local net = require("@core/server/generated/net")
+local net = require("@kit/server/generated/net")
 local prvd = require("@core/shared/prvdmwrong/prvdmwrong")
 
 local TOWER_FALLBACK_TAG = "Welcome To Hell Kit Tower"
 
-local NO_TOWER_ERROR = `\
-    No tower found, make sure you have a "Kit" tower under \
-    the Workspace, or tag your tower with the "{TOWER_FALLBACK_TAG}" tag.\
-`
+local NO_TOWER_ERROR =
+	`No tower found, make sure you have a "Kit" tower under the Workspace, or tag your tower with the "{TOWER_FALLBACK_TAG}" tag.`
 
 local DEFAULTS: { [Instance]: { [string]: unknown } } = {
 	[StarterGui] = { ScreenOrientation = Enum.ScreenOrientation.LandscapeSensor },
@@ -84,6 +82,7 @@ function KitServerProvider.onStart(self: KitServerProvider)
 			return
 		end
 
+		print(invalidCause)
 		self.log:error("Got invalid tower", tower:GetFullName(), "because:", invalidCause:formatErr())
 		return
 	end

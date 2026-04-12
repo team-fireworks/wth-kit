@@ -158,18 +158,92 @@ local Queue: any = {
 
 local SerdesEvent = "?"
 local SerdesThread: thread?
-local function WriteEVENT_damage(Value: number): ()
+Queue.Reliable[1] = table.create(256)
+Queue.Reliable[2] = table.create(256)
+Queue.Reliable[3] = table.create(256)
+local function WriteEVENT_rejoin(Value: nil): ()
+	-- Allocate BLOCK: 1 bytes
+	local BLOCK_START = Allocate(1)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 0)
+end
+
+local function WriteFUNCTION_DATA_getTower(Value: nil, InvocationIdentifier: number): ()
 	-- Allocate BLOCK: 2 bytes
 	local BLOCK_START = Allocate(2)
-	buffer.writeu8(SendBuffer, BLOCK_START + 0, 0)
-	buffer.writeu8(SendBuffer, BLOCK_START + 1, Value)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 1)
+	buffer.writeu8(SendBuffer, BLOCK_START + 1, InvocationIdentifier)
+end
+
+local function ReadFUNCTION_RETURN_getTower(): (Instance)
+	-- Read BLOCK: 1 bytes
+	local BLOCK_START = Read(1)
+	local Success = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
+	if Success ~= 1 then
+		error("Server encountered an error.")
+	end
+	RecieveInstanceCursor += 1
+	local Value = RecieveInstances[RecieveInstanceCursor]
+	if typeof(Value) ~= "Instance" then error(`Expected an Instance, got {typeof(Value)} instead.`) end
+	if not Value:IsA("Instance") then error(`Expected an Instance of type "Instance", got "{Value.ClassName}" instead.`) end
+	return Value
+end
+
+local function WriteFUNCTION_DATA_loadMechanics(Value: nil, InvocationIdentifier: number): ()
+	-- Allocate BLOCK: 2 bytes
+	local BLOCK_START = Allocate(2)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 2)
+	buffer.writeu8(SendBuffer, BLOCK_START + 1, InvocationIdentifier)
+end
+
+local function ReadFUNCTION_RETURN_loadMechanics(): (Instance)
+	-- Read BLOCK: 1 bytes
+	local BLOCK_START = Read(1)
+	local Success = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
+	if Success ~= 1 then
+		error("Server encountered an error.")
+	end
+	RecieveInstanceCursor += 1
+	local Value = RecieveInstances[RecieveInstanceCursor]
+	if typeof(Value) ~= "Instance" then error(`Expected an Instance, got {typeof(Value)} instead.`) end
+	if not Value:IsA("Instance") then error(`Expected an Instance of type "Instance", got "{Value.ClassName}" instead.`) end
+	return Value
+end
+
+local function WriteFUNCTION_DATA_loadDecorations(Value: nil, InvocationIdentifier: number): ()
+	-- Allocate BLOCK: 2 bytes
+	local BLOCK_START = Allocate(2)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 3)
+	buffer.writeu8(SendBuffer, BLOCK_START + 1, InvocationIdentifier)
+end
+
+local function ReadFUNCTION_RETURN_loadDecorations(): (Instance)
+	-- Read BLOCK: 1 bytes
+	local BLOCK_START = Read(1)
+	local Success = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
+	if Success ~= 1 then
+		error("Server encountered an error.")
+	end
+	RecieveInstanceCursor += 1
+	local Value = RecieveInstances[RecieveInstanceCursor]
+	if typeof(Value) ~= "Instance" then error(`Expected an Instance, got {typeof(Value)} instead.`) end
+	if not Value:IsA("Instance") then error(`Expected an Instance of type "Instance", got "{Value.ClassName}" instead.`) end
+	return Value
 end
 
 if not RunService:IsRunning() then
 	local NOOP = function() end
 	local Returns = table.freeze({
-	damage = {
+	rejoin = {
 		fire = NOOP
+	},
+	getTower = {
+		invoke = NOOP
+	},
+	loadMechanics = {
+		invoke = NOOP
+	},
+	loadDecorations = {
+		invoke = NOOP
 	},
 	})
 	return Returns :: BLINK_EVENTS_SYMBOL
@@ -213,6 +287,40 @@ Reliable.OnClientEvent:Connect(function(Buffer: buffer, Instances: {Instance})
 		-- Read BLOCK: 1 bytes
 		local BLOCK_START = Read(1)
 		local Index = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
+		if Index == 1 then
+			-- Read BLOCK: 1 bytes
+			local BLOCK_START = Read(1)
+			local InvocationIdentifier = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
+				local Success, ReturnValue = pcall(function ()
+					return ReadFUNCTION_RETURN_getTower()
+				end)
+			if Calls[InvocationIdentifier] ~= nil then
+				task.spawn(Calls[InvocationIdentifier], Success, ReturnValue)
+				Calls[InvocationIdentifier] = nil
+			end
+		elseif Index == 2 then
+			-- Read BLOCK: 1 bytes
+			local BLOCK_START = Read(1)
+			local InvocationIdentifier = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
+				local Success, ReturnValue = pcall(function ()
+					return ReadFUNCTION_RETURN_loadMechanics()
+				end)
+			if Calls[InvocationIdentifier] ~= nil then
+				task.spawn(Calls[InvocationIdentifier], Success, ReturnValue)
+				Calls[InvocationIdentifier] = nil
+			end
+		elseif Index == 3 then
+			-- Read BLOCK: 1 bytes
+			local BLOCK_START = Read(1)
+			local InvocationIdentifier = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
+				local Success, ReturnValue = pcall(function ()
+					return ReadFUNCTION_RETURN_loadDecorations()
+				end)
+			if Calls[InvocationIdentifier] ~= nil then
+				task.spawn(Calls[InvocationIdentifier], Success, ReturnValue)
+				Calls[InvocationIdentifier] = nil
+			end
+		end
 	end
 end)
 Unreliable.OnClientEvent:Connect(function(Buffer: buffer, Instances: {Instance})
@@ -237,9 +345,75 @@ end)
 local Returns = table.freeze({
 	stepReplication = StepReplication,
 
-	damage = {
-		fire = function(Value: number): ()
-			WriteEVENT_damage(Value)
+	rejoin = {
+		fire = function(Value: nil): ()
+			WriteEVENT_rejoin(Value)
+		end
+	},
+	getTower = {
+		invoke = function(Value: nil)
+			return Promise.new(function (Resolve, Reject, OnCancel)
+				local InvocationIdentifier = Invoke()
+				if Calls[InvocationIdentifier] ~= nil then
+					Invocations -= 1
+					error("More than 256 calls are awaiting a response, this packet has been dropped.")
+				end
+				WriteFUNCTION_DATA_getTower(Value, InvocationIdentifier)
+				Calls[InvocationIdentifier] = coroutine.running()
+				OnCancel(function ()
+					Calls[InvocationIdentifier] = nil
+				end)
+				local Success, ReturnValue: Instance = coroutine.yield()
+				if Success ~= true then
+					Reject("There was an exception while processing \"getTower\".")
+					return 
+				end
+				Resolve(ReturnValue)
+			end)
+		end
+	},
+	loadMechanics = {
+		invoke = function(Value: nil)
+			return Promise.new(function (Resolve, Reject, OnCancel)
+				local InvocationIdentifier = Invoke()
+				if Calls[InvocationIdentifier] ~= nil then
+					Invocations -= 1
+					error("More than 256 calls are awaiting a response, this packet has been dropped.")
+				end
+				WriteFUNCTION_DATA_loadMechanics(Value, InvocationIdentifier)
+				Calls[InvocationIdentifier] = coroutine.running()
+				OnCancel(function ()
+					Calls[InvocationIdentifier] = nil
+				end)
+				local Success, ReturnValue: Instance = coroutine.yield()
+				if Success ~= true then
+					Reject("There was an exception while processing \"loadMechanics\".")
+					return 
+				end
+				Resolve(ReturnValue)
+			end)
+		end
+	},
+	loadDecorations = {
+		invoke = function(Value: nil)
+			return Promise.new(function (Resolve, Reject, OnCancel)
+				local InvocationIdentifier = Invoke()
+				if Calls[InvocationIdentifier] ~= nil then
+					Invocations -= 1
+					error("More than 256 calls are awaiting a response, this packet has been dropped.")
+				end
+				WriteFUNCTION_DATA_loadDecorations(Value, InvocationIdentifier)
+				Calls[InvocationIdentifier] = coroutine.running()
+				OnCancel(function ()
+					Calls[InvocationIdentifier] = nil
+				end)
+				local Success, ReturnValue: Instance = coroutine.yield()
+				if Success ~= true then
+					Reject("There was an exception while processing \"loadDecorations\".")
+					return 
+				end
+				Resolve(ReturnValue)
+			end)
 		end
 	},
 })

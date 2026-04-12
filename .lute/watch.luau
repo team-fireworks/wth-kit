@@ -18,7 +18,7 @@ table.insert(sourcemapArgs, 1, "rojo")
 table.insert(sourcemapArgs, "--watch")
 
 task.spawn(process.run, sourcemapArgs, { stdio = "inherit" } :: any)
-task.spawn(process.run, { "darklua", "process", config.source, config.output }, { stdio = "inherit" } :: any)
+task.spawn(process.run, { "darklua", "process", config.source, config.output, "--watch" }, { stdio = "inherit" } :: any)
 for _, file in config.blinkFiles do
 	task.spawn(process.run, { "blink", file, "--yes", "--watch" }, { stdio = "inherit" } :: any)
 end

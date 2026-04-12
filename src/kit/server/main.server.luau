@@ -1,17 +1,17 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ServerScriptService = game:GetService("ServerScriptService")
 
 local framework = require("@core/shared/framework")
 
-framework.useModulesFromPath(ReplicatedStorage, "Core", "Client", "providers")
+framework.useModulesFromPath(ServerScriptService, "Core", "Server", "providers")
 framework.useModulesFromPath(ReplicatedStorage, "Core", "Shared", "providers")
-framework.useModulesFromPath(ReplicatedStorage, "Kit", "Client", "providers")
-framework.useModulesFromPath(ReplicatedStorage, "Kit", "Shared", "providers")
+framework.useModulesFromPath(ServerScriptService, "Kit", "Server", "providers")
 
 -- initialize net modules
 require("@core/server/generated/net")
 require("@kit/server/generated/net")
 
 local root = framework.root:start()
-game.Close:Once(function()
+game:BindToClose(function()
 	root:finish()
 end)

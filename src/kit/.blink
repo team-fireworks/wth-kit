@@ -5,9 +5,27 @@ option ClientOutput = "./client/generated/net.luau"
 option PromiseLibrary = "ReplicatedStorage.Packages.Promise"
 option RemoteScope = "WELCOME_TO_HELL_KIT"
 
-event damage {
+event rejoin {
     From: Client,
     Type: Reliable,
-    Call: SingleAsync,
-    Data: u8
+    Call: ManyAsync,
+    Data: ()
+}
+
+function getTower {
+    Yield: Promise,
+    Data: (),
+    Return: Instance
+}
+
+function loadMechanics {
+    Yield: Promise,
+    Data: (),
+    Return: Instance
+}
+
+function loadDecorations {
+    Yield: Promise,
+    Data: (),
+    Return: Instance
 }

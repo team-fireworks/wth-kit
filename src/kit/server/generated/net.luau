@@ -159,18 +159,67 @@ local Queue: any = {
 
 local SerdesEvent = "?"
 local SerdesThread: thread?
+Events.Reliable[0] = {}
 Queue.Reliable[0] = table.create(256)
-local function ReadEVENT_damage(): (number)
-	-- Read BLOCK: 1 bytes
-	local BLOCK_START = Read(1)
-	local Value = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
+Queue.Reliable[1] = table.create(256)
+Queue.Reliable[2] = table.create(256)
+Queue.Reliable[3] = table.create(256)
+local function ReadEVENT_rejoin(): (nil)
 	return Value
+end
+
+local function ReadFUNCTION_DATA_getTower(): (nil)
+	return Value
+end
+
+local function WriteFUNCTION_RETURN_getTower(Value: Instance, InvocationIdentifier: number): ()
+	-- Allocate BLOCK: 3 bytes
+	local BLOCK_START = Allocate(3)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 1)
+	buffer.writeu8(SendBuffer, BLOCK_START + 1, InvocationIdentifier)
+	buffer.writeu8(SendBuffer, BLOCK_START + 2, 1)
+	table.insert(SendInstances, Value or Null)
+end
+
+local function ReadFUNCTION_DATA_loadMechanics(): (nil)
+	return Value
+end
+
+local function WriteFUNCTION_RETURN_loadMechanics(Value: Instance, InvocationIdentifier: number): ()
+	-- Allocate BLOCK: 3 bytes
+	local BLOCK_START = Allocate(3)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 2)
+	buffer.writeu8(SendBuffer, BLOCK_START + 1, InvocationIdentifier)
+	buffer.writeu8(SendBuffer, BLOCK_START + 2, 1)
+	table.insert(SendInstances, Value or Null)
+end
+
+local function ReadFUNCTION_DATA_loadDecorations(): (nil)
+	return Value
+end
+
+local function WriteFUNCTION_RETURN_loadDecorations(Value: Instance, InvocationIdentifier: number): ()
+	-- Allocate BLOCK: 3 bytes
+	local BLOCK_START = Allocate(3)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 3)
+	buffer.writeu8(SendBuffer, BLOCK_START + 1, InvocationIdentifier)
+	buffer.writeu8(SendBuffer, BLOCK_START + 2, 1)
+	table.insert(SendInstances, Value or Null)
 end
 
 if not RunService:IsRunning() then
 	local NOOP = function() end
 	local Returns = table.freeze({
-	damage = {
+	rejoin = {
+		on = NOOP
+	},
+	getTower = {
+		on = NOOP
+	},
+	loadMechanics = {
+		on = NOOP
+	},
+	loadDecorations = {
 		on = NOOP
 	},
 	})
@@ -236,14 +285,55 @@ Reliable.OnServerEvent:Connect(function(Player: Player, Buffer: buffer, Instance
 		local BLOCK_START = Read(1)
 		local Index = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
 		if Index == 0 then
-			local Value: number = ReadEVENT_damage()
-			if Events.Reliable[0] ~= nil then
-				task.spawn(Events.Reliable[0], Player, Value)
+			local Value: nil = ReadEVENT_rejoin()
+			if #Events.Reliable[0] > 0 then
+				for _, Listener in Events.Reliable[0] do
+					task.spawn(Listener, Player, Value)
+				end
 			else
 				if #Queue.Reliable[0] > 256 then
-					warn("[Blink]: Event queue of \"damage\" exceeded 256, did you forget to implement a listener?")
+					warn("[Blink]: Event queue of \"rejoin\" exceeded 256, did you forget to implement a listener?")
 				end
 				table.insert(Queue.Reliable[0], {Player, Value} :: {any})
+			end
+		elseif Index == 1 then
+			-- Read BLOCK: 1 bytes
+			local BLOCK_START = Read(1)
+			local InvocationIdentifier = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
+			local Value: nil = ReadFUNCTION_DATA_getTower()
+			if Events.Reliable[1] ~= nil then
+				task.spawn(Events.Reliable[1], Player, Value, InvocationIdentifier)
+			else
+				if #Queue.Reliable[1] > 256 then
+					warn("[Blink]: Event queue of \"getTower\" exceeded 256, did you forget to implement a listener?")
+				end
+				table.insert(Queue.Reliable[1], {Player, Value, InvocationIdentifier} :: {any})
+			end
+		elseif Index == 2 then
+			-- Read BLOCK: 1 bytes
+			local BLOCK_START = Read(1)
+			local InvocationIdentifier = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
+			local Value: nil = ReadFUNCTION_DATA_loadMechanics()
+			if Events.Reliable[2] ~= nil then
+				task.spawn(Events.Reliable[2], Player, Value, InvocationIdentifier)
+			else
+				if #Queue.Reliable[2] > 256 then
+					warn("[Blink]: Event queue of \"loadMechanics\" exceeded 256, did you forget to implement a listener?")
+				end
+				table.insert(Queue.Reliable[2], {Player, Value, InvocationIdentifier} :: {any})
+			end
+		elseif Index == 3 then
+			-- Read BLOCK: 1 bytes
+			local BLOCK_START = Read(1)
+			local InvocationIdentifier = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
+			local Value: nil = ReadFUNCTION_DATA_loadDecorations()
+			if Events.Reliable[3] ~= nil then
+				task.spawn(Events.Reliable[3], Player, Value, InvocationIdentifier)
+			else
+				if #Queue.Reliable[3] > 256 then
+					warn("[Blink]: Event queue of \"loadDecorations\" exceeded 256, did you forget to implement a listener?")
+				end
+				table.insert(Queue.Reliable[3], {Player, Value, InvocationIdentifier} :: {any})
 			end
 		end
 	end
@@ -270,18 +360,103 @@ end)
 local Returns = table.freeze({
 	stepReplication = StepReplication,
 
-	damage = {
-		on = function(Listener: (Player: Player, Value: number) -> ()): () -> ()
-			Events.Reliable[0] = Listener
+	rejoin = {
+		on = function(Listener: (Player: Player, Value: nil) -> ()): () -> ()
+			table.insert(Events.Reliable[0], Listener)
 			for Index, Arguments in Queue.Reliable[0] do
 				task.spawn(Listener, table.unpack(Arguments))
 			end
 			Queue.Reliable[0] = {}
 			return function (): ()
-				if Events.Reliable[0] == Listener then
-					Events.Reliable[0] = nil
+				local Index = table.find(Events.Reliable[0], Listener)
+				if Index ~= nil then
+					table.remove(Events.Reliable[0], Index)
 				end
 			end
+		end
+	},
+	getTower = {
+		on = function(Listener: (Player, nil) -> (Instance)): ()
+			Events.Reliable[1] = function(Player: Player, Value: nil, InvocationIdentifier: number): ()
+				local ReturnValue: Instance;
+				local Success, Error = pcall(function ()
+					ReturnValue = Listener(Player, Value)
+				end)
+				Load(PlayersMap[Player])
+				if Success ~= true then
+					local Position = Allocate(3)
+					buffer.writeu8(SendBuffer, Position, 1)
+					buffer.writeu8(SendBuffer, Position + 1, InvocationIdentifier)
+					buffer.writeu8(SendBuffer, Position + 2, 0)
+					warn(`"getTower" encountered an error, {Error}`)
+				else
+					WriteFUNCTION_RETURN_getTower(ReturnValue, InvocationIdentifier)
+				end
+				PlayersMap[Player] = Save()
+			end
+			task.spawn(function (): ()
+				local EventQueue = Queue.Reliable[1] or {}
+				Queue.Reliable[1] = nil
+				for Index, Arguments in EventQueue do
+					Events.Reliable[1](table.unpack(Arguments))
+				end
+			end)
+		end
+	},
+	loadMechanics = {
+		on = function(Listener: (Player, nil) -> (Instance)): ()
+			Events.Reliable[2] = function(Player: Player, Value: nil, InvocationIdentifier: number): ()
+				local ReturnValue: Instance;
+				local Success, Error = pcall(function ()
+					ReturnValue = Listener(Player, Value)
+				end)
+				Load(PlayersMap[Player])
+				if Success ~= true then
+					local Position = Allocate(3)
+					buffer.writeu8(SendBuffer, Position, 2)
+					buffer.writeu8(SendBuffer, Position + 1, InvocationIdentifier)
+					buffer.writeu8(SendBuffer, Position + 2, 0)
+					warn(`"loadMechanics" encountered an error, {Error}`)
+				else
+					WriteFUNCTION_RETURN_loadMechanics(ReturnValue, InvocationIdentifier)
+				end
+				PlayersMap[Player] = Save()
+			end
+			task.spawn(function (): ()
+				local EventQueue = Queue.Reliable[2] or {}
+				Queue.Reliable[2] = nil
+				for Index, Arguments in EventQueue do
+					Events.Reliable[2](table.unpack(Arguments))
+				end
+			end)
+		end
+	},
+	loadDecorations = {
+		on = function(Listener: (Player, nil) -> (Instance)): ()
+			Events.Reliable[3] = function(Player: Player, Value: nil, InvocationIdentifier: number): ()
+				local ReturnValue: Instance;
+				local Success, Error = pcall(function ()
+					ReturnValue = Listener(Player, Value)
+				end)
+				Load(PlayersMap[Player])
+				if Success ~= true then
+					local Position = Allocate(3)
+					buffer.writeu8(SendBuffer, Position, 3)
+					buffer.writeu8(SendBuffer, Position + 1, InvocationIdentifier)
+					buffer.writeu8(SendBuffer, Position + 2, 0)
+					warn(`"loadDecorations" encountered an error, {Error}`)
+				else
+					WriteFUNCTION_RETURN_loadDecorations(ReturnValue, InvocationIdentifier)
+				end
+				PlayersMap[Player] = Save()
+			end
+			task.spawn(function (): ()
+				local EventQueue = Queue.Reliable[3] or {}
+				Queue.Reliable[3] = nil
+				for Index, Arguments in EventQueue do
+					Events.Reliable[3](table.unpack(Arguments))
+				end
+			end)
 		end
 	},
 })

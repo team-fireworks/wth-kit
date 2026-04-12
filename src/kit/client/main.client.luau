@@ -5,7 +5,6 @@ local framework = require("@core/shared/framework")
 framework.useModulesFromPath(ReplicatedStorage, "Core", "Client", "providers")
 framework.useModulesFromPath(ReplicatedStorage, "Core", "Shared", "providers")
 framework.useModulesFromPath(ReplicatedStorage, "Kit", "Client", "providers")
-framework.useModulesFromPath(ReplicatedStorage, "Kit", "Shared", "providers")
 
 -- initialize net modules
 require("@core/client/generated/net")

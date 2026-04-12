@@ -16,6 +16,7 @@ KitClientProvider.log = Log.new(KitClientProvider)
 function KitClientProvider.constructor(self: KitClientProvider)
 	self.life = Life.new()
 	Level.baseScripts:tryInstances(ReplicatedStorage.Scripts.Core:GetDescendants())
+	Level.baseScripts:tryInstances(ReplicatedStorage.Scripts.Kit:GetDescendants())
 end
 
 function KitClientProvider.onStart(self: KitClientProvider)
