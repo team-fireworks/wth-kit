@@ -13,5 +13,5 @@ jobs:
       - name: Setup Lute
         run: lute setup --with-luaurc
 
-      - name: Check code quality
-        run: lute run check
+      - name: Continous Intergration
+        run: lute run ci
