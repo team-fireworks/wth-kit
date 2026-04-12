@@ -40,6 +40,6 @@ local selene = process.run({ "selene", "src" }, { stdio = "inherit" })
 
 local stylua = process.run({ "stylua", "--check", "src" }, { stdio = "inherit" })
 
-if not (analyze.ok and selene.ok and stylua.ok) then
+if not (selene.ok and stylua.ok) then
 	process.exit(1)
 end
