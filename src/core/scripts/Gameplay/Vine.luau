@@ -7,12 +7,12 @@ local std = require("@libs/std")
 local Vine = std.Mechanic({})
 export type VineMechanic = std.Mechanic<typeof(Vine)> & { templateHandle: BasePart? }
 Vine.instanceTag = "Vine"
-Vine.instanceType = std.gt.instanceTree {
+Vine.instanceType = std.gt.instanceTree({
 	Top = std.isA.BasePart(),
 	Activator = std.isA.BasePart(),
 	Constraint = std.gt.optional(std.isA.Constraint()),
 	Handle = std.gt.optional(std.isA.BasePart()),
-}
+})
 Vine.debuggerEmoji = "🪝"
 
 Vine.Enabled = Vine:withEnabled()
@@ -71,10 +71,10 @@ function Vine.onActivate(self: typeof(Vine), vine: VineMechanic, level: std.Leve
 	vine:Debounced(true)
 	self.Activation.Enabled(vine, false)
 
-	local angularVelocity, linearVelocity = Vector3.zero, Vector3.zero
-	if vine:KeepVelocity() then
-		angularVelocity, linearVelocity = root.AssemblyAngularVelocity, root.AssemblyLinearVelocity
-	end
+	-- local angularVelocity, linearVelocity = Vector3.zero, Vector3.zero
+	-- if vine:KeepVelocity() then
+	-- angularVelocity, linearVelocity = root.AssemblyAngularVelocity, root.AssemblyLinearVelocity
+	-- end
 
 	local attachmentTrove = vine.life:extend()
 
@@ -82,8 +82,6 @@ function Vine.onActivate(self: typeof(Vine), vine: VineMechanic, level: std.Leve
 	local handle = attachmentTrove:add(vine:useTemplateHandle():Clone())
 	local attachment0, attachment1 = constraints.populateAttachments(attachmentTrove, constraint)
 	attachment0.Parent, attachment1.Parent = vine.instance.Top, handle
-
-	
 end
 
 return Vine

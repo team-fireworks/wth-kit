@@ -69,10 +69,10 @@ local function teleport(context: types.TeleportContext)
 	end
 end
 
-return table.freeze {
+return table.freeze({
 	transitions = transitions,
 	calculateSeamless = calculateSeamless,
 	teleport = teleport,
 	useAttributes = useAttributes,
 	useSeamlessAttributes = useSeamlessAttributes,
-}
+})

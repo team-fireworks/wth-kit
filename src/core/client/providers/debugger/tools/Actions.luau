@@ -1,8 +1,8 @@
-local Workspace = game:GetService("Workspace")
+-- local Workspace = game:GetService("Workspace")
 
-local Iris = require("@pkgs/Iris")
+-- local Iris = require("@pkgs/Iris")
 local Life = require("@libs/memory/Life")
-local net = require("@core/client/generated/net")
+-- local net = require("@core/client/generated/net")
 
 local Actions = {}
 Actions.__index = Actions
@@ -17,23 +17,23 @@ end
 function Actions.renderViewport() end
 
 function Actions.renderWindow(self: Actions)
-	if Iris.Button({ "Rejoin" }).clicked() then
-		net.rejoin.fire()
-	end
+	-- if Iris.Button({ "Rejoin" }).clicked() then
+	-- 	net.rejoin.fire()
+	-- end
 
-	if Iris.Button({ "Load Decorations" }).clicked() then
-		net.loadDecorations.invoke():andThenCall(function(decorations: Instance?)
-			if not decorations then
-				return
-			end
+	-- if Iris.Button({ "Load Decorations" }).clicked() then
+	-- 	net.loadDecorations.invoke():andThenCall(function(decorations: Instance?)
+	-- 		if not decorations then
+	-- 			return
+	-- 		end
 
-			local oldDecorations = Workspace:FindFirstChild(decorations.Name)
-			if oldDecorations then
-				oldDecorations:Destroy()
-			end
-			decorations.Parent = Workspace
-		end)
-	end
+	-- 		local oldDecorations = Workspace:FindFirstChild(decorations.Name)
+	-- 		if oldDecorations then
+	-- 			oldDecorations:Destroy()
+	-- 		end
+	-- 		decorations.Parent = Workspace
+	-- 	end)
+	-- end
 end
 
 return Actions

@@ -9,7 +9,7 @@ local function useModulesFromPath(parentRoot: Instance, ...: string)
 	root:useModules(parentRoot:GetDescendants())
 end
 
-return table.freeze {
+return table.freeze({
 	root = root,
 	useModulesFromPath = useModulesFromPath,
-}
+})

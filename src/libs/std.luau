@@ -32,7 +32,7 @@ export type Life = Life.Life
 	The standard library is kept as small as possible to focus on things
 	that are most frequently used for tower scripting.
 ]=]
-return table.freeze {
+return table.freeze({
 	Mechanic = Mechanic.new,
 	Attribute = Attribute.new,
 	Life = Life.new,
@@ -44,4 +44,4 @@ return table.freeze {
 
 	gt = gt,
 	isA = gt.isA,
-}
+})

@@ -132,12 +132,12 @@ function Button.onActivate(self: typeof(Button), button: ButtonMechanic, level: 
 		task.delay(button:Cooldown(), Attribute.set :: any, self.Activation.Enabled, button, true)
 	end)
 
-	self.glowButton {
+	self.glowButton({
 		life = deactivationLife,
 		instance = button.instance,
 		instanceConfiguration = button.instanceConfiguration,
 		tweenAttributes = self.Transition,
-	}
+	})
 
 	emission.emitTaggedDescendants(button.instance, button:ActivatedEmissionTag())
 

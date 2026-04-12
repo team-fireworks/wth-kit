@@ -48,6 +48,6 @@ local ActivationMode = gt.build(gt.table({
 
 export type ActivationMode = typeof(ActivationMode:type())
 
-return table.freeze {
+return table.freeze({
 	ActivationMode = ActivationMode,
-}
+})

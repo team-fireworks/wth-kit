@@ -21,7 +21,7 @@ local function populateAttachments(life: Life.Life, constraint: Constraint): (At
 	return attachment0, attachment1
 end
 
-return table.freeze {
+return table.freeze({
 	weld = weld,
 	populateAttachments = populateAttachments,
-}
+})

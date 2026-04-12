@@ -34,7 +34,7 @@ local function trackMechanic<T>(level: std.Level, mechanic: T, mechanicsByIdStat
 	end)
 end
 
-return table.freeze {
+return table.freeze({
 	withAttribute = withAttribute,
 	trackMechanic = trackMechanic,
-}
+})

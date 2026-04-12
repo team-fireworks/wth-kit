@@ -1,4 +1,4 @@
-return table.freeze {
+return table.freeze({
 	DEFAULT = "💠",
 
 	Workspace = "🌏",
@@ -82,4 +82,4 @@ return table.freeze {
 	Decal = "🖼️",
 
 	Sound = "🎵",
-} :: { [string]: string }
+}) :: { [string]: string }

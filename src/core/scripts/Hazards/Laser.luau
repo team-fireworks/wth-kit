@@ -4,10 +4,10 @@ local Laser = std.Mechanic({})
 export type LaserMechanic = std.Mechanic<typeof(Laser)>
 
 Laser.instanceTag = "Laser"
-Laser.instanceType = std.gt.instanceTree {
+Laser.instanceType = std.gt.instanceTree({
 	Base = std.isA.BasePart(),
 	Beam = std.isA.BasePart(),
-}
+})
 Laser.debuggerEmoji = "🔦"
 
 function Laser.onPreSimulation(self: typeof(Laser), laser: LaserMechanic, level: std.Level) end

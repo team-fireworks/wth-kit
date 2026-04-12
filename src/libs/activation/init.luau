@@ -30,7 +30,7 @@ local function registerMode(
 	mode: types.ActivationMode
 ): Result.Result<types.ActivationMode, RegisterModeError>
 	if modes[key] then
-		return Result.Err({ id = functions.literal "alreadyExists" })
+		return Result.Err({ id = functions.literal("alreadyExists") })
 	end
 
 	local isValid, invalidatedCause = types.ActivationMode:matches(mode)
@@ -41,7 +41,7 @@ local function registerMode(
 	end
 
 	return Result.Err({
-		id = functions.literal "invalidMode",
+		id = functions.literal("invalidMode"),
 		cause = invalidatedCause,
 	})
 end
@@ -62,7 +62,7 @@ local function activate(context: types.ActivationContext): Result.Result<nil, Ac
 				local predicateResult = mode.predicate(context)
 				if predicateResult:isErr() then
 					return Result.Err({
-						id = functions.literal "predicateFailed",
+						id = functions.literal("predicateFailed"),
 						error = predicateResult:unwrapErr() :: string,
 					})
 				end
@@ -72,9 +72,9 @@ local function activate(context: types.ActivationContext): Result.Result<nil, Ac
 			return Result.Ok(nil)
 		end
 
-		return Result.Err({ id = functions.literal "unknownMode" })
+		return Result.Err({ id = functions.literal("unknownMode") })
 	end
-	return Result.Err({ id = functions.literal "noMode" })
+	return Result.Err({ id = functions.literal("noMode") })
 end
 
 local function bindActivation(bindContext: BindContext)
@@ -103,7 +103,7 @@ local function bindActivation(bindContext: BindContext)
 	life:add(context.attributes.Mode:onBind(context.instanceConfiguration, update))
 end
 
-return table.freeze {
+return table.freeze({
 	modes = modes,
 	registerMode = registerMode,
 	unregisterMode = unregisterMode,
@@ -114,4 +114,4 @@ return table.freeze {
 	createChildOfClass = createChildOfClass,
 	useChildOfClass = useChildOfClass,
 	useAttributes = useAttributes,
-}
+})

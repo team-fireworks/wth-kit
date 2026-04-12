@@ -97,7 +97,7 @@ local function playAlwaysFromAttributes(
 	return playAlways(instance, propertyTable, configurationFromAttributes(attributes))
 end
 
-return table.freeze {
+return table.freeze({
 	useAttributes = useAttributes,
 	configurationFromAttributes = configurationFromAttributes,
 	tweenInfoFromConfiguration = tweenInfoFromConfiguration,
@@ -106,4 +106,4 @@ return table.freeze {
 	playAlways = playAlways,
 	playFromAttributes = playFromAttributes,
 	playAlwaysFromAttributes = playAlwaysFromAttributes,
-}
+})

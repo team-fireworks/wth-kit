@@ -1,5 +1,5 @@
 return {
-	remote = "https://github.com/team-fireworks/wth.git",
+	remote = "https://github.com/welcomestohell/game.git",
 	branch = "main",
 
 	directory = "mirror",
@@ -7,12 +7,17 @@ return {
 		"src/core",
 		"src/libs",
 
+		".github/workflows/ci.yml",
+
 		".darklua.json",
+		".gitattributes",
+		".styluaignore",
 		"pesde.toml",
 		"rokit.toml",
 		"selene.toml",
-		"selene-std.yaml",
+		"stylua.toml",
 
+		".lute/ci.luau",
 		".lute/mirror.luau",
 		".lute/watch.luau",
 

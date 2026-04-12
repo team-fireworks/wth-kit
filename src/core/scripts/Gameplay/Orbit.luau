@@ -4,10 +4,10 @@ local std = require("@libs/std")
 local Orbit = std.Mechanic({})
 export type OrbitMechanic = std.Mechanic<typeof(Orbit)>
 Orbit.instanceTag = "Orbit"
-Orbit.instanceType = std.gt.instanceTree {
+Orbit.instanceType = std.gt.instanceTree({
 	Pivot = std.isA.BasePart(),
 	Handle = std.isA.BasePart(),
-}
+})
 Orbit.debuggerEmoji = "🪐"
 
 Orbit:attributeSection("Activation")

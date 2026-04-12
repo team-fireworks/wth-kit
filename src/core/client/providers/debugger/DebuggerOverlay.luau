@@ -1,5 +1,4 @@
 local Stats = game:GetService("Stats")
-local Workspace = game:GetService("Workspace")
 
 local Iris = require("@pkgs/Iris")
 

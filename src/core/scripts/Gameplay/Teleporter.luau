@@ -67,7 +67,7 @@ function Teleporter.onActivate(self: typeof(Teleporter), teleporter: TeleporterM
 		sounds.playInstance(self.Sound, teleporter.instance, teleporter.instanceConfiguration, sounds.sfx.teleport)
 	end
 
-	teleport.teleport {
+	teleport.teleport({
 		teleporter = teleporter.instance,
 		teleporterConfiguration = teleporter.instanceConfiguration or teleporter.instance,
 		teleporterLife = teleporter.life,
@@ -79,7 +79,7 @@ function Teleporter.onActivate(self: typeof(Teleporter), teleporter: TeleporterM
 		attributes = self.Teleport,
 		seamlessAttributes = self.Seamless,
 		tweenAttributes = self.Transition,
-	}
+	})
 
 	self.debounce = false
 end

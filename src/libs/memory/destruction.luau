@@ -57,8 +57,8 @@ function typeDestructors.table(tbl: { [any]: any })
 	end
 end
 
-return table.freeze {
+return table.freeze({
 	destroy = destroy,
 	destructorMethods = destructorMethods,
 	typeDestructors = typeDestructors,
-}
+})

@@ -24,9 +24,9 @@ local function remove<K, V>(marray: MapArray<K, V>, key: K, value: V)
 	tables.findAndRemove(get(marray, key), value)
 end
 
-return table.freeze {
+return table.freeze({
 	get = get,
 	push = push,
 	pop = pop,
 	remove = remove,
-}
+})

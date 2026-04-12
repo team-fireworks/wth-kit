@@ -27,10 +27,10 @@ local function getUnsafe(instance: Instance, property: string): any
 	return (instance :: any)[property]
 end
 
-return table.freeze {
+return table.freeze({
 	knownClassProperties = knownClassProperties,
 
 	isInInstance = isInInstance,
 	setUnsafe = setUnsafe,
 	getUnsafe = getUnsafe,
-}
+})

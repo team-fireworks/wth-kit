@@ -18,7 +18,11 @@ function AttributeObserver.fromInstance(instance: Instance)
 		return existing
 	end
 
-	local self = setmetatable({}, AttributeObserver)
+	local self: AttributeObserver = setmetatable({
+		_instance = instance,
+		_connections = {},
+		_signals = {},
+	}, AttributeObserver)
 
 	observersByInstance[instance] = self
 	return self

@@ -10,6 +10,6 @@ local function get<K, V>(mset: MapSet<K, V>, key: K): { [V]: true }
 	return result
 end
 
-return table.freeze {
+return table.freeze({
 	get = get,
-}
+})

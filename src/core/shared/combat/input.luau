@@ -11,7 +11,7 @@ export type Keybind = Enum.KeyCode | Enum.UserInputType
 export type Binding = {
 	identifier: string,
 	keybind: Keybind,
-	life: life.Life,
+	life: Life.Life,
 
 	_instance: InputBinding?,
 }
@@ -19,7 +19,7 @@ export type Binding = {
 export type Action = {
 	identifier: string,
 	actionType: Enum.InputActionType,
-	life: life.Life,
+	life: Life.Life,
 	bindings: { [string]: Binding },
 
 	data: ActionData,
@@ -29,7 +29,7 @@ export type Action = {
 
 export type Context = {
 	identifier: string,
-	life: life.Life,
+	life: Life.Life,
 	actions: { [string]: Action },
 
 	_instance: InputContext,

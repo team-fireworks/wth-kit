@@ -13,7 +13,7 @@ function DebuggerProvider.constructor(self: DebugProvider)
 end
 
 function DebuggerProvider.onStart(self: DebugProvider)
-	Iris.Init()
+	Iris.Init(nil, nil, false)
 	Iris:Connect(Debugger(self.life))
 end
 

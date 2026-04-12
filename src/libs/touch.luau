@@ -37,7 +37,7 @@ local function isToucherValid(
 		or (attributes.SupportsBullets(instanceConfiguration) and (toucher:HasTag("Bullet") or toucher:FindFirstAncestor("Bullet") ~= nil))
 end
 
-return table.freeze {
+return table.freeze({
 	useAttributes = useAttributes,
 	isToucherValid = isToucherValid,
-}
+})

@@ -137,7 +137,7 @@ local function preloadAssets()
 	end
 end
 
-return table.freeze {
+return table.freeze({
 	sfx = table.freeze(table.clone(audios.sfx)),
 	assetPaths = assetPaths,
 	useAssets = useAssets :: <T>(assets: T) -> (),
@@ -148,4 +148,4 @@ return table.freeze {
 	playInstance = playInstance,
 	playMechanic = playMechanic,
 	preloadAssets = preloadAssets,
-}
+})

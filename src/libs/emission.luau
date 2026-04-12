@@ -20,9 +20,9 @@ local function emitTaggedDescendants(parent: Instance, tag: string)
 	end
 end
 
-return table.freeze {
+return table.freeze({
 	Delay = Delay,
 
 	emit = emit,
 	emitTaggedDescendants = emitTaggedDescendants,
-}
+})

@@ -218,7 +218,7 @@ function Explorer.renderWindow(self: Explorer)
 	self.selectedInstance = DebuggerStore.explorerSelectedInstance()
 	local oldSelectedInstance = self.selectedInstance
 
-	Iris.PushConfig({ ButtonTransparency = 1, ItemSpacing = Vector2.zero } :: Iris.Config)
+	Iris.PushConfig({ ButtonTransparency = 1, ItemSpacing = Vector2.zero } :: Iris.PartialConfig)
 	Iris.Group()
 	for _, service in SERVICES do
 		self:renderInstance(service)

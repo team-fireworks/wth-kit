@@ -17,7 +17,7 @@ CheckpointTeleporter.Cooldown = CheckpointTeleporter:attribute("Cooldown", std.g
 CheckpointTeleporter.OnNoCheckpoint = CheckpointTeleporter:attribute(
 	"OnNoCheckpoint",
 	std.gt.unionLiterals2("DoNothing", "ReturnToSpawn"),
-	functions.literal "DoNothing"
+	functions.literal("DoNothing")
 )
 
 CheckpointTeleporter:attributeSection("Activation")
