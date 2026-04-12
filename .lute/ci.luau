@@ -5,6 +5,8 @@ local process = require("@lute/process")
 
 process.run({ "rojo", "sourcemap", "--output=sourcemap.json", project.rojoProjects.sourcemap }, { stdio = "inherit" })
 
+process.run({ "pesde", "install" })
+
 fs.writestringtofile(
 	"roblox.d.luau",
 	net.request("https://luau-lsp.pages.dev/globalTypes.None.d.luau", { method = "GET" }).body

@@ -1,5 +1,3 @@
-local Workspace = game:GetService("Workspace")
-
 local DebuggerStore = require("./DebuggerStore")
 local Iris = require("@libs/Iris")
 local tools = require("./tools")

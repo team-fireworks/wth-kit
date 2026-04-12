@@ -1,6 +1,4 @@
 local Mechanic = require("./Mechanic")
-local functions = require("./functions")
-local tables = require("@libs/collections/tables")
 
 local ScriptCollector = {}
 ScriptCollector.__index = ScriptCollector
