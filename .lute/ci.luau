@@ -1,8 +1,9 @@
+local project = require("@config/project")
 local fs = require("@std/fs")
 local net = require("@lute/net")
 local process = require("@lute/process")
 
-process.run({ "rojo", "sourcemap", "--output=sourcemap.json" }, { stdio = "inherit" })
+process.run({ "rojo", "sourcemap", "--output=sourcemap.json", project.rojoProjects.sourcemap }, { stdio = "inherit" })
 
 fs.writestringtofile(
 	"roblox.d.luau",
